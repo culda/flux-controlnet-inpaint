@@ -937,9 +937,8 @@ class FluxControlNetInpaintPipeline(DiffusionPipeline, FluxLoraLoaderMixin, From
                     latents = torch.cat([latents, mask, masked_image_latents], dim=1)
 
 
-
                 # handle guidance
-                if self.transformer.config.guidance_embeds:
+                if self.controlnet.config.guidance_embeds:
                     guidance = torch.tensor([guidance_scale], device=device)
                     guidance = guidance.expand(latents.shape[0])
                 else:
