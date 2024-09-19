@@ -961,6 +961,12 @@ class FluxControlNetInpaintPipeline(DiffusionPipeline, FluxLoraLoaderMixin, From
                     return_dict=False,
                 )
 
+                if self.transformer.config.guidance_embeds:
+                    guidance = torch.tensor([guidance_scale], device=device)
+                    guidance = guidance.expand(latents.shape[0])
+                else:
+                    guidance = None
+
                 noise_pred = self.transformer(
                     hidden_states=latents,
                     timestep=timestep / 1000,
